@@ -442,16 +442,25 @@ func client(args []string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.Println("//* chclient.NewClient done!")
+
 	c.Debug = *verbose
 	if *pid {
 		generatePidFile()
 	}
+	log.Println("//* generatePidFile done!")
+
 	go cos.GoStats()
 	ctx := cos.InterruptContext()
+	log.Println("//* cos.GoStats() done!")
+
 	if err := c.Start(ctx); err != nil {
 		log.Fatal(err)
 	}
+	log.Println("//* chclient.NewClient.Start()done!")
+
 	if err := c.Wait(); err != nil {
 		log.Fatal(err)
 	}
+	log.Println("//* c.Wait() done!")
 }
