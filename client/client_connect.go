@@ -111,7 +111,7 @@ func (c *Client) connectionOnce(ctx context.Context) (connected bool, err error)
 	defer sshConn.Close()
 	// chisel client handshake (reverse of server handshake)
 	// send configuration
-	c.Debugf("Sending config")
+	c.Debugf("Sending config: Version:[%v] Remotes:[%v]", c.computed.Version, c.computed.Remotes)
 	t0 := time.Now()
 	_, configerr, err := sshConn.SendRequest(
 		"config",
@@ -125,7 +125,9 @@ func (c *Client) connectionOnce(ctx context.Context) (connected bool, err error)
 	if len(configerr) > 0 {
 		return false, errors.New(string(configerr))
 	}
+
 	c.Infof("Connected (Latency %s)", time.Since(t0))
+
 	//connected, handover ssh connection for tunnel to use, and block
 	err = c.tunnel.BindSSH(ctx, sshConn, reqs, chans)
 	c.Infof("Disconnected")

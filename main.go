@@ -433,6 +433,10 @@ func client(args []string) {
 		config.TLS.ServerName = *sni
 	}
 
+	if *verbose {
+		config.Verbose = *verbose
+	}
+
 	//ready
 	c, err := chclient.NewClient(&config)
 	if err != nil {
