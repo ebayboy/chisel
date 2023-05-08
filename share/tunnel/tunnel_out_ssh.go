@@ -44,6 +44,7 @@ func (t *Tunnel) handleSSHChannel(ch ssh.NewChannel) {
 		return
 	}
 	remote := string(ch.ExtraData())
+	t.Debugf("handleSSHChannel remote:%v", remote)
 
 	//extract protocol
 	hostPort, proto := settings.L4Proto(remote)
@@ -70,7 +71,9 @@ func (t *Tunnel) handleSSHChannel(ch ssh.NewChannel) {
 
 	//ready to handle
 	t.connStats.Open()
-	l.Debugf("Open %s socks:[%v] hostPort:[%v]", t.connStats.String(), socks, hostPort) //Open [1/1] socks:[false] hostPort:[test05.testtest05.com:8080]
+	//TCP: Open [1/1] socks:[false] hostPort:[test05.testtest05.com:8080]
+	//socks:  Open [1/2] socks:[true] hostPort:[socks]
+	l.Debugf("Open %s socks:[%v] hostPort:[%v]", t.connStats.String(), socks, hostPort)
 	if socks {
 		err = t.handleSocks(stream)
 	} else if udp {
