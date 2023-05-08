@@ -93,7 +93,7 @@ func (t *Tunnel) handleSocks(src io.ReadWriteCloser) error {
 
 func (t *Tunnel) handleTCP(l *cio.Logger, src io.ReadWriteCloser, hostPort string) error {
 
-	l.Debugf("handleTCP: hostPort:[%v]", hostPort)
+	l.Debugf("handleTCP: hostPort:[%v]", hostPort) //* handleTCP: hostPort:[test03.testtest03.com:8080]
 	dst, err := net.Dial("tcp", hostPort)
 	if err != nil {
 		return err
